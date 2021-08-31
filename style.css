@@ -1,0 +1,78 @@
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: lightgray;
+    background-image: url("cat1.png"), url("cat3.png");
+    background-size: 100px;
+    background-repeat: no-repeat;
+    background-position: 100px 400px, 600px, 300px;
+
+}
+
+
+button {
+    border: none;
+    font-size: 30px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin: 3px;
+    /* animation: glowing 1300ms infinite; */
+
+}
+
+button:focus {
+    outline: none;
+}
+button:active {
+    outline: none;
+}
+.number {
+    background-color: aliceblue;
+}
+
+/*
+#equal {
+    height: 200px;
+} */
+
+#buttons {
+    grid-template-columns: repeat(4, 1fr);
+    display: grid;
+}
+
+#container {
+
+    width: 360px;
+    margin: 50px 0 0 220px;
+    /* border: 1px solid white; */
+}
+
+#output {
+    text-align: left;
+    width: 340px;
+    height: 80px;
+    font-size: 40px;
+    margin: 0 0 0 20px;
+}
+
+@keyframes glowingNum {
+    100% {
+      background-color: #92f7e1;
+    }
+}
+
+@keyframes glowingOps {
+    100% {
+      background-color: #a0beff;
+    }
+}
+
+.active {
+    background-color: #a0beff;
+}
+
+header {
+    text-align: center;
+    font-size: 40px;
+}
