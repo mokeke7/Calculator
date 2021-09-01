@@ -7,7 +7,7 @@ let result;
 let button = document.querySelectorAll("button.number");
 let btnId;
 
-
+// Add function
 function add(num1, num2) {
   if (isNaN(num1)) {
     return num2;
@@ -19,6 +19,7 @@ function add(num1, num2) {
   }
 }
 
+// Subtract function
 function subtract(num1, num2) {
   if (isNaN(num1)) {
     return num2;
@@ -30,6 +31,7 @@ function subtract(num1, num2) {
   }
 }
 
+// Multiply function
 function multiply(num1, num2) {
   if (isNaN(num1)) {
     return num2;
@@ -41,6 +43,7 @@ function multiply(num1, num2) {
   }
 }
 
+// Divide function
 function divide(num1, num2) {
   if (isNaN(num1)) {
     return num2;
@@ -77,12 +80,31 @@ button.forEach((button) => {
 
 // Add animation to ops btn
 let opeBtn = document.querySelectorAll("button.ops");
-let opeId;
+let test = '';
 opeBtn.forEach((opeBtn) => {
   opeBtn.addEventListener("click", (e) => {
-    opeId = document.getElementById(opeBtn.id);
-    opeId.style.animation = "glowingOps 200ms";
-    removeStyle(opeId);
+    removeActive();
+    if (opeBtn.id == "equal") {
+      opeBtn.style.animation = "glowingOps 200ms";
+      removeStyle(opeBtn);
+    }
+    else {
+      opeBtn.classList.add("active");
+    }
+
+    if (!num1) {
+      num1 = parseInt(output.innerHTML);
+      test = opeBtn.id;
+      clear();
+    }
+    else {
+      num2 = parseInt(output.innerHTML);
+      result = calc(test, num1, num2);
+      checkResult(result, test);
+      num1 = result;
+      test = opeBtn.id;
+    }
+    isContinued = true;
   })
 })
 
@@ -96,35 +118,28 @@ function removeStyle(id) {
 // Clear the output
 let acBtn = document.querySelector("#clear");
 acBtn.addEventListener("click", (e) => {
+  acBtn.style.animation = "glowingOps 200ms";
+  removeStyle(acBtn);
   clear();
 })
 
 // Add button
 let addBtn = document.querySelector("#add");
 let addId = document.getElementById("add");
-addBtn.addEventListener("click", (e) => {
-  operator(addId, add, "+");
-})
 
 // Subtract button
 let subBtn = document.querySelector("#subtract");
-let subId = document.getElementById("subtract");
-subBtn.addEventListener("click", (e) => {
-  operator(subId, subtract, "-");
-})
+let subtractId = document.getElementById("subtract");
 
+// Multiply button
 let multiBtn = document.querySelector("#multiply");
-let multiId = document.getElementById("multiply");
-multiBtn.addEventListener("click", (e) => {
-  operator(multiId, multiply, "*");
-})
+let multiplyId = document.getElementById("multiply");
 
+// Divide button
 let divBtn = document.querySelector("#divide");
-let divId = document.getElementById("divide");
-divBtn.addEventListener("click", (e) => {
-  operator(divId, divide, "/");
-})
+let divideId = document.getElementById("divide");
 
+// Equal button
 let eqlBtn = document.querySelector("#equal");
 eqlBtn.addEventListener("click", (e) => {
   let intNo = output.innerHTML.replace(/\s/g, '')
@@ -134,25 +149,25 @@ eqlBtn.addEventListener("click", (e) => {
       indexOps = intNo.search(/\+/);
       num2 = parseInt(intNo.slice(indexOps + 1));
       output.innerHTML = add(num1, num2);
-      addId.classList.remove("active");
+      removeActive();
       break;
     case "-":
       indexOps = intNo.search(/\-/);
       num2 = parseInt(intNo.slice(indexOps + 1));
       output.innerHTML = subtract(num1, num2);
-      subId.classList.remove("active");
+      removeActive();
       break;
     case "*":
       indexOps = intNo.search(/\*/);
       num2 = parseInt(intNo.slice(indexOps + 1));
       output.innerHTML = multiply(num1, num2);
-      multiId.classList.remove("active");
+      removeActive();
       break;
     case "/":
       indexOps = intNo.search(/\//);
       num2 = parseInt(intNo.slice(indexOps + 1));
       output.innerHTML = divide(num1, num2);
-      divId.classList.remove("active");
+      removeActive();
       break;
     }
   isCalculated = true;
@@ -161,36 +176,19 @@ eqlBtn.addEventListener("click", (e) => {
 })
 
 function clear() {
-  output.innerHTML = "";
-}
+  if (output.innerHTML != null) {
+    output.innerHTML = "";
+  }
 
-// Operate
-function operator(id, fun, ope) {
-  id.classList.add("active");
-  if (!num1) {
-    num1 = parseInt(output.innerHTML);
-  }
-  else {
-    num2 = parseInt(output.innerHTML);
-  }
-  clear();
-
-  if (num1 && num2) {
-    result = fun(num1, num2);
-    num1 = result;
-    checkResult(result, fun);
-    isContinued = true;
-  }
-  ops = ope;
 }
 
 // Check if the result is over 8 digits
 function checkResult(result, fun) {
   let length = result.toString().length
-  if (isNan(result)) {
+  if (isNaN(result)) {
     output.innerHTML = "Error";
   }
-  else if (fun == multiply && length >= 9) {
+  else if (fun == "multiply" && length >= 9) {
     output.innerHTML = "E"
   }
   else if (length >= 9) {
@@ -201,3 +199,36 @@ function checkResult(result, fun) {
   }
 }
 
+function isActive(){
+  let active = document.querySelectorAll("button.active")
+  if (active == null){
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+
+function removeActive(){
+  addId.classList.remove("active");
+  subtractId.classList.remove("active");
+  multiplyId.classList.remove("active");
+  divideId.classList.remove("active");
+}
+
+function calc(f, num1, num2) {
+  switch (f) {
+    case "add":
+      return add(num1, num2);
+      break;
+    case "subtract":
+      return subtract(num1, num2);
+      break;
+    case "multiply":
+      return multiply(num1, num2);
+      break;
+    case "divide":
+      return divide(num1, num2);
+      break;
+  }
+}
